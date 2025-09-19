@@ -1,0 +1,168 @@
+/* Variáveis de cores */
+:root {
+    --azul-primario: #611103;
+    --amarelo-primario: #e29a57;
+    --branco: #FFFFFF;
+    --cinza-claro: #f5f5f5;
+    --cinza-escuro: #333333;
+}
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Body */
+body {
+    background-color: var(--branco);
+    color: var(--cinza-escuro);
+    line-height: 1.4;
+    padding: 10px;
+}
+
+/* Cabeçalho */
+header {
+    background-color: var(--azul-primario);
+    color: var(--branco);
+    padding: 12px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+}
+
+header h1 {
+    font-size: 1.5rem;
+}
+
+/* Navegação */
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+nav button {
+    background-color: var(--amarelo-primario);
+    color: var(--azul-primario);
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+nav a.nav-link {
+    display: inline-block;
+    background-color: var(--amarelo-primario);
+    color: var(--azul-primario);
+    text-decoration: none;
+    padding: 6px 10px;
+    margin: 3px 3px 3px 0;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+nav a.nav-link:hover {
+    background-color: var(--azul-primario);
+    color: var(--branco);
+}
+
+nav button:hover {
+    background-color: var(--azul-primario);
+    color: var(--branco);
+}
+
+/* Seções */
+main section {
+    background-color: var(--cinza-claro);
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+main section h2 {
+    margin-bottom: 5px;
+    font-size: 1rem;
+    color: var(--azul-primario);
+}
+
+/* Botões de conteúdo */
+main button {
+    background-color: var(--azul-primario);
+    color: var(--branco);
+    border: none;
+    padding: 5px 8px;
+    margin: 3px 3px 3px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.85rem;
+}
+
+main button:hover {
+    background-color: var(--amarelo-primario);
+    color: var(--azul-primario);
+}
+
+/* Textarea */
+textarea {
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--azul-primario);
+    margin-top: 5px;
+    resize: vertical;
+    font-size: 0.9rem;
+    background-color: var(--branco);
+    color: var(--cinza-escuro);
+}
+
+/* Opções adicionais */
+div[id$="Options"] {
+    background-color: var(--branco);
+    border: 1px solid var(--azul-primario);
+    border-radius: 6px;
+    padding: 6px;
+    margin-top: 3px;
+}
+
+/* Botão copiar/apagar */
+#btnCopiar, #btnApagar {
+    background-color: var(--amarelo-primario);
+    color: var(--azul-primario);
+    font-weight: bold;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+}
+
+#btnCopiar:hover, #btnApagar:hover {
+    background-color: var(--azul-primario);
+    color: var(--branco);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    main button {
+        width: 100%;
+        margin-bottom: 3px;
+    }
+}
+
+
+
