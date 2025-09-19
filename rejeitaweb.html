@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Aceitação Normal</title>
+    <link rel="stylesheet" href="estilos/style2.css">
+</head>
+
+<body>
+
+    <!-- Cabeçalho -->
+    <header>
+        <h1>Registro de Rejeição WebMotors</h1>
+    </header>
+
+    <!-- Navegação -->
+    <nav>
+        <a href="index.html" class="nav-link">Aceitação Normal</a>
+        <a href="aceitaweb.html" class="nav-link">Aceitação Webmotors</a>
+        <a href="aceitamax.html" class="nav-link">Aceitação Maxmilhas</a>
+        <a href="rejeita.html" class="nav-link">Rejeição Normal</a>
+        <a href="rejeitaweb.html" class="nav-link">Rejeição Webmotors</a>
+        <a href="rejeitamax.html" class="nav-link">Rejeição Maxmilhas</a>
+    </nav>
+
+
+    <!-- Área de conteúdo principal -->
+    <main id="conteudo">
+        <section id="Históricos">
+            <h2>Obrigatórios</h2>
+            <button id="btnFCT">Histórico FCT</button>
+            <button id="btnSS">Histórico SS</button>
+            <button id="btnFCTSS">Histórico FCT e SS</button>
+            <button id="btnSemHistorico">Sem histórico</button>
+            <button id="btnHistorico1Ano">Histórico de 1 ano</button>
+        </section>
+        <section id="Bureaux e complementos">
+            <button id="btnScoreAFS">SCORE AFS</button>
+            <button id="btnArkowl">ARKOWL</button>
+            <button id="btnScoreEmailAge">Score EmailAge</button>
+            <button id="btnQuodCartao">QuodCartão</button>
+            <button id="btnCredlink">CredLink</button>
+            <div id="credlinkOptions" style="display:none; border:1px solid #ccc; padding:10px; margin-top:5px;">
+                <label><input type="checkbox" value="Telefone"> Telefone</label><br>
+                <label><input type="checkbox" value="Cidade"> Cidade</label><br>
+                <label><input type="checkbox" value="Estado"> Estado</label><br>
+                <button id="credlinkConfirm">Confirmar</button>
+            </div>
+
+            <button id="btnPilpBusca">PilpBusca</button>
+            <div id="pilpBuscaOptions" style="display:none; border:1px solid #ccc; padding:10px; margin-top:5px;">
+                <label><input type="checkbox" value="Email"> Email</label><br>
+                <label><input type="checkbox" value="Telefone"> Telefone</label><br>
+                <label><input type="checkbox" value="Cidade"> Cidade</label><br>
+                <label><input type="checkbox" value="Estado"> Estado</label><br>
+                <button id="pilpBuscaConfirm">Confirmar</button>
+            </div>
+            <button id="btnDuplaCartao">Dupla no cartão</button>
+            <button id="btnTriplaCartao">Tripla no cartão</button>
+            <button id="btnMultiCartao">Multi no cartão</button>
+            <button id="btnVelocity">Velocity</button>
+            <button id="btnIPDiverge">IP Diverge</button>
+            <button id="btnLigacao">Ligação</button>
+            <button id="btnDFP">DFP</button>
+            <button id="btnMenorIdade">Menor idade</button>
+            <button id="btnCheckTudo">CheckTudo</button>
+            <button id="btnQtdDias">Quantidade de dias</button>
+            <button id="btnPix">Pix não nominal</button>
+            <button id="btnVelocidadePix">Velocidade Pix</button>
+
+            <!-- Adicione mais conforme precisar -->
+        </section>
+        <section id="complementares">
+            <button id="btnCopiar">Copiar Texto</button>
+        </section>
+
+        <textarea id="textoUsuario" rows="10" cols="80" placeholder="Escreva aqui..."></textarea>
+
+        <section id="complementares">
+            <button id="btnApagar">Apagar Conteúdo</button>
+        </section>
+    </main>
+    <script>
+
+        window.addEventListener("load", function () {
+            const textarea = document.getElementById("textoUsuario");
+            textarea.value = ". FRAUDE .";
+        });
+
+        let menorIdadeAtivo = false;
+
+        document.getElementById("btnMenorIdade").addEventListener("click", function () {
+            const textarea = document.getElementById("textoUsuario");
+
+            if (!menorIdadeAtivo) {
+                // Remove ". FRAUDE ." se estiver no início
+                textarea.value = textarea.value.replace(/^\. FRAUDE \./, "").trim();
+
+                // Adiciona o texto de menor idade no começo
+                textarea.value = "> cliente é menor de idade, o merchant não aceita menores." + (textarea.value ? " " + textarea.value : "");
+
+                menorIdadeAtivo = true;
+            } else {
+                // Remove o texto de menor idade
+                textarea.value = textarea.value.replace(/^> cliente é menor de idade, o merchant não aceita menores\./, "").trim();
+
+                // Adiciona de volta ". FRAUDE ." no começo
+                textarea.value = ". FRAUDE ." + (textarea.value ? " " + textarea.value : "");
+
+                menorIdadeAtivo = false;
+            }
+        });
+
+
+        document.getElementById("btnApagar").addEventListener("click", function () {
+            // Limpa a textarea
+            document.getElementById("textoUsuario").value = "";
+        });
+
+        document.getElementById("btnFCT").addEventListener("click", function () {
+            // Perguntar qual filtro
+            let filtro = "";
+            while (!filtro) {
+                let opcao = prompt("Qual o filtro deseja incluir?\n1 - Cartão\n2 - Email\n3 - Telefone");
+
+                if (opcao === null) return; // Cancelou, sai da função
+
+                if (opcao === "1") filtro = "cartão";
+                else if (opcao === "2") filtro = "email";
+                else if (opcao === "3") filtro = "telefone";
+                else alert("Opção inválida! Digite 1, 2 ou 3.");
+            }
+
+            // Perguntar a data
+            let dataValida = false;
+            let dataFiltro = "";
+            const hoje = new Date();
+            const mesLimite = new Date();
+            mesLimite.setMonth(hoje.getMonth() - 7); // limite de 6 meses atrás
+
+            while (!dataValida) {
+                let inputData = prompt("Digite a data no formato MM-AAAA (ex: 06-2025):");
+
+                if (inputData === null) return; // Cancelou, sai da função
+
+                if (!/^\d{2}-\d{4}$/.test(inputData)) {
+                    alert("Formato inválido! Use MM-AAAA.");
+                    continue;
+                }
+
+                const [mes, ano] = inputData.split("-").map(Number);
+                const dataInput = new Date(ano, mes - 1); // mês começa do 0
+
+                if (dataInput < mesLimite) {
+                    alert("Data não confere com esse filtro, cuidado! Tente novamente.");
+                } else {
+                    dataValida = true;
+                    dataFiltro = inputData;
+                }
+            }
+
+            // Inserir na textarea
+            const texto = `Histórico FCT por (${filtro}) desde ${dataFiltro}.`;
+            document.getElementById("textoUsuario").value += (document.getElementById("textoUsuario").value ? " " : "") + texto;
+        });
+
+        document.getElementById("btnSS").addEventListener("click", function () {
+            // Perguntar qual filtro
+            let filtro = "";
+            while (!filtro) {
+                let opcao = prompt("Qual o filtro deseja incluir?\n1 - Cartão\n2 - Email\n3 - Telefone");
+
+                if (opcao === null) return; // Cancelou, sai da função
+
+                if (opcao === "1") filtro = "cartão";
+                else if (opcao === "2") filtro = "email";
+                else if (opcao === "3") filtro = "telefone";
+                else alert("Opção inválida! Digite 1, 2 ou 3.");
+            }
+
+            // Perguntar a data
+            let dataValida = false;
+            let dataFiltro = "";
+            const hoje = new Date();
+            const mesLimite = new Date();
+            mesLimite.setMonth(hoje.getMonth() - 7); // limite de 6 meses atrás
+
+            while (!dataValida) {
+                let inputData = prompt("Digite a data no formato MM-AAAA (ex: 06-2025):");
+
+                if (inputData === null) return; // Cancelou, sai da função
+
+                if (!/^\d{2}-\d{4}$/.test(inputData)) {
+                    alert("Formato inválido! Use MM-AAAA.");
+                    continue;
+                }
+
+                const [mes, ano] = inputData.split("-").map(Number);
+                const dataInput = new Date(ano, mes - 1); // mês começa do 0
+
+                if (dataInput < mesLimite) {
+                    alert("Data não confere com esse filtro, cuidado! Tente novamente.");
+                } else {
+                    dataValida = true;
+                    dataFiltro = inputData;
+                }
+            }
+
+            // Inserir na textarea
+            const texto = `Histórico SS por (${filtro}) desde ${dataFiltro}.`;
+            document.getElementById("textoUsuario").value += (document.getElementById("textoUsuario").value ? " " : "") + texto;
+        });
+        document.getElementById("btnFCTSS").addEventListener("click", function () {
+            // Perguntar qual filtro
+            let filtro = "";
+            while (!filtro) {
+                let opcao = prompt("Qual o filtro deseja incluir para FCT e SS?\n1 - Cartão\n2 - Email\n3 - Telefone");
+
+                if (opcao === null) return; // Cancelou, sai da função
+
+                if (opcao === "1") filtro = "cartão";
+                else if (opcao === "2") filtro = "email";
+                else if (opcao === "3") filtro = "telefone";
+                else alert("Opção inválida! Digite 1, 2 ou 3.");
+            }
+
+            // Perguntar a data
+            let dataValida = false;
+            let dataFiltro = "";
+            const hoje = new Date();
+            const mesLimite = new Date();
+            mesLimite.setMonth(hoje.getMonth() - 7); // limite de 6 meses atrás
+
+            while (!dataValida) {
+                let inputData = prompt("Digite a data no formato MM-AAAA (ex: 06-2025) para FCT e SS:");
+
+                if (inputData === null) return; // Cancelou, sai da função
+
+                if (!/^\d{2}-\d{4}$/.test(inputData)) {
+                    alert("Formato inválido! Use MM-AAAA.");
+                    continue;
+                }
+
+                const [mes, ano] = inputData.split("-").map(Number);
+                const dataInput = new Date(ano, mes - 1); // mês começa do 0
+
+                if (dataInput < mesLimite) {
+                    alert("Data não confere com esse filtro, cuidado! Tente novamente.");
+                } else {
+                    dataValida = true;
+                    dataFiltro = inputData;
+                }
+            }
+
+            // Inserir na textarea
+            const texto = `Histórico FCT e SS por (${filtro}) desde ${dataFiltro}.`;
+            document.getElementById("textoUsuario").value += (document.getElementById("textoUsuario").value ? " " : "") + texto;
+        });
+
+        let semHistoricoAtivo = false;
+        let textoSemHistorico = "";
+
+        document.getElementById("btnSemHistorico").addEventListener("click", function () {
+            const textarea = document.getElementById("textoUsuario");
+
+            if (!semHistoricoAtivo) {
+                textoSemHistorico = "Sem histórico SS e FCT.";
+                textarea.value += (textarea.value ? " " : "") + textoSemHistorico;
+                semHistoricoAtivo = true;
+            } else {
+                // Remove o texto se o botão for clicado novamente
+                textarea.value = textarea.value.replace(textoSemHistorico, "").replace(/\s\s+/g, " ").trim();
+                semHistoricoAtivo = false;
+                textoSemHistorico = "";
+            }
+        });
+
+
+        document.getElementById("btnHistorico1Ano").addEventListener("click", function () {
+            // Perguntar qual filtro
+            let filtro = "";
+            while (!filtro) {
+                let opcao = prompt("Qual o filtro deseja incluir para Histórico de 1 ano?\n1 - CPF\n2 - Email\n3 - Telefone");
+
+                if (opcao === null) return; // Cancelou
+
+                if (opcao === "1") filtro = "CPF";
+                else if (opcao === "2") filtro = "email";
+                else if (opcao === "3") filtro = "telefone";
+                else alert("Opção inválida! Digite 1, 2 ou 3.");
+            }
+
+            // Perguntar a data
+            let dataValida = false;
+            let dataFiltro = "";
+            const hoje = new Date();
+            let anoLimite = hoje.getFullYear();
+            let mesLimite = hoje.getMonth() - 13; // 0 = janeiro
+
+            if (mesLimite < 0) {
+                anoLimite -= 1;
+                mesLimite += 12;
+            }
+
+            while (!dataValida) {
+                let inputData = prompt("Digite a data no formato MM-AAAA (ex: 06-2025) para Histórico de 1 ano:");
+                if (inputData === null) return; // Cancelou
+
+                if (!/^\d{2}-\d{4}$/.test(inputData)) {
+                    alert("Formato inválido! Use MM-AAAA.");
+                    continue;
+                }
+
+                const [mes, ano] = inputData.split("-").map(Number);
+                const mesIndex = mes - 1; // mês começa do 0
+
+                // Verificação considerando ano e mês
+                if (ano < anoLimite || (ano === anoLimite && mesIndex < mesLimite)) {
+                    alert("Data não confere com esse filtro, cuidado! Tente novamente.");
+                } else {
+                    dataValida = true;
+                    dataFiltro = inputData;
+                }
+            }
+
+            // Inserir na textarea
+            const texto = `Histórico de 1 ano por (${filtro}) desde ${dataFiltro}.`;
+            document.getElementById("textoUsuario").value += (document.getElementById("textoUsuario").value ? " " : "") + texto;
+        });
+
+        document.getElementById("btnScoreAFS").addEventListener("click", function () {
+            let textarea = document.getElementById("textoUsuario");
+            let textoExistente = textarea.value;
+
+            // Expressão que identifica o texto do SCORE AFS já adicionado
+            let regex = /Score está alto AFS \d{2}, aumentando o risco\./;
+
+            if (regex.test(textoExistente)) {
+                // Se já existe, remove
+                textarea.value = textoExistente.replace(regex, "").trim();
+                return;
+            }
+
+            // Perguntar o valor e validar
+            let score = null;
+            while (score === null) {
+                let input = prompt("Digite o SCORE AFS (40 a 99):");
+                if (input === null) return; // usuário cancelou
+                let valor = parseInt(input, 10);
+
+                if (!isNaN(valor) && valor >= 40 && valor <= 99) {
+                    score = valor;
+                } else {
+                    alert("Valor inválido! Digite um número entre 40 e 99.");
+                }
+            }
+
+            // Texto final
+            let texto = `Score está alto AFS ${score}, aumentando o risco.`;
+
+            // Adiciona sem sobrescrever
+            textarea.value += (textarea.value ? " " : "") + texto;
+        });
+
+        document.getElementById("btnArkowl").addEventListener("click", function () {
+            let textarea = document.getElementById("textoUsuario");
+            let textoExistente = textarea.value;
+
+            // Texto alvo
+            let texto = "Email não nominal ao cliente no Bureau ARKOWL.";
+
+            if (textoExistente.includes(texto)) {
+                // Se já existe, remove
+                textarea.value = textoExistente.replace(texto, "").trim();
+            } else {
+                // Se não existe, adiciona
+                textarea.value += (textarea.value ? " " : "") + texto;
+            }
+        });
+
+        document.getElementById("btnScoreEmailAge").addEventListener("click", function () {
+            let textarea = document.getElementById("textoUsuario");
+            let textoExistente = textarea.value;
+
+            // Expressão que identifica o texto já adicionado
+            let regex = /Score EmailAge alto \d{3}, aumentando o risco dessa transação\./;
+
+            if (regex.test(textoExistente)) {
+                // Se já existe, remove
+                textarea.value = textoExistente.replace(regex, "").trim();
+                return;
+            }
+
+            // Perguntar o valor e validar
+            let score = null;
+            while (score === null) {
+                let input = prompt("Digite o Score EmailAge (451 a 999):");
+                if (input === null) return; // cancelou
+                let valor = parseInt(input, 10);
+
+                if (!isNaN(valor) && valor >= 451 && valor <= 999) {
+                    score = valor;
+                } else {
+                    alert("Valor inválido! Digite um número entre 451 e 999.");
+                }
+            }
+
+            // Texto final
+            let texto = `Score EmailAge alto ${score}, aumentando o risco dessa transação.`;
+
+            // Adiciona sem sobrescrever
+            textarea.value += (textarea.value ? " " : "") + texto;
+        });
+
+        document.getElementById("btnQuodCartao").addEventListener("click", function () {
+            let textarea = document.getElementById("textoUsuario");
+            let textoExistente = textarea.value;
+
+            // Regex para pegar qualquer frase do QuodCartão já adicionada
+            let regex = /QuodCartão [0-7], (o cliente retorna como óbito|usuário é menor de idade|cartão não vincula com o CPF)\./;
+
+            if (regex.test(textoExistente)) {
+                // Se já existe, remove
+                textarea.value = textoExistente.replace(regex, "").trim();
+                return;
+            }
+
+            // Perguntar o valor
+            let codigo = null;
+            while (codigo === null) {
+                let input = prompt("Digite o resultado do QuodCartão (0,2,3,4,5,6,7):");
+                if (input === null) return; // cancelou
+                let valor = parseInt(input, 10);
+
+                // Apenas valores permitidos
+                if ([0, 2, 3, 4, 5, 6, 7].includes(valor)) {
+                    codigo = valor;
+                } else {
+                    alert("Valor inválido! Digite somente 0, 2, 3, 4, 5, 6 ou 7.");
+                }
+            }
+
+            // Definir mensagem conforme código
+            let texto = "";
+            if (codigo === 3) {
+                texto = `QuodCartão 3, o cliente retorna como óbito.`;
+            } else if (codigo === 4) {
+                texto = `QuodCartão 4, usuário é menor de idade.`;
+            } else {
+                texto = `QuodCartão ${codigo}, cartão não vincula com o CPF.`;
+            }
+
+            // Adicionar sem sobrescrever
+            textarea.value += (textarea.value ? " " : "") + texto;
+        });
+
+        // -------- CredLink --------
+        let credlinkAtivo = false;
+        let textoCredlink = "";
+
+        document.getElementById("btnCredlink").addEventListener("click", function () {
+            let optionsDiv = document.getElementById("credlinkOptions");
+
+            if (!credlinkAtivo) {
+                optionsDiv.style.display = "block"; // mostrar checkboxes
+            } else {
+                if (textoCredlink) {
+                    let textarea = document.getElementById("textoUsuario");
+                    textarea.value = textarea.value.replace(textoCredlink, "").replace(/\s\s+/g, " ").trim();
+                }
+                optionsDiv.style.display = "none";
+                credlinkAtivo = false;
+                textoCredlink = "";
+            }
+        });
+
+        document.getElementById("credlinkConfirm").addEventListener("click", function () {
+            let checkboxes = document.querySelectorAll("#credlinkOptions input[type='checkbox']");
+            let selecionados = [];
+            checkboxes.forEach(cb => {
+                if (cb.checked) selecionados.push(cb.value);
+            });
+
+            if (selecionados.length === 0) {
+                alert("Selecione pelo menos uma opção!");
+                return;
+            }
+
+            if (textoCredlink) {
+                let textarea = document.getElementById("textoUsuario");
+                textarea.value = textarea.value.replace(textoCredlink, "").trim();
+            }
+
+            // Alteração aqui: "não retorna" em vez de "retorna"
+            textoCredlink = selecionados.join(", ") + " não retorna no CredLink.";
+
+            let textarea = document.getElementById("textoUsuario");
+            textarea.value += (textarea.value ? " " : "") + textoCredlink;
+
+            document.getElementById("credlinkOptions").style.display = "none";
+            credlinkAtivo = true;
+        });
+
+        // -------- PilpBusca --------
+        let pilpBuscaAtivo = false;
+        let textoPilpBusca = "";
+
+        document.getElementById("btnPilpBusca").addEventListener("click", function () {
+            let optionsDiv = document.getElementById("pilpBuscaOptions");
+
+            if (!pilpBuscaAtivo) {
+                optionsDiv.style.display = "block";
+            } else {
+                if (textoPilpBusca) {
+                    let textarea = document.getElementById("textoUsuario");
+                    textarea.value = textarea.value.replace(textoPilpBusca, "").replace(/\s\s+/g, " ").trim();
+                }
+                optionsDiv.style.display = "none";
+                pilpBuscaAtivo = false;
+                textoPilpBusca = "";
+            }
+        });
+
+        document.getElementById("pilpBuscaConfirm").addEventListener("click", function () {
+            let checkboxes = document.querySelectorAll("#pilpBuscaOptions input[type='checkbox']");
+            let selecionados = [];
+            checkboxes.forEach(cb => {
+                if (cb.checked) selecionados.push(cb.value);
+            });
+
+            if (selecionados.length === 0) {
+                alert("Selecione pelo menos uma opção!");
+                return;
+            }
+
+            if (textoPilpBusca) {
+                let textarea = document.getElementById("textoUsuario");
+                textarea.value = textarea.value.replace(textoPilpBusca, "").trim();
+            }
+
+            // Alteração aqui: "não retorna" em vez de "retorna"
+            textoPilpBusca = selecionados.join(", ") + " não retorna no PilpBusca.";
+
+            let textarea = document.getElementById("textoUsuario");
+            textarea.value += (textarea.value ? " " : "") + textoPilpBusca;
+
+            document.getElementById("pilpBuscaOptions").style.display = "none";
+            pilpBuscaAtivo = true;
+        });
+
+        let duplaCartaoAtivo = false;
+        let textoDuplaCartao = "";
+
+        document.getElementById("btnDuplaCartao").addEventListener("click", function () {
+            const textarea = document.getElementById("textoUsuario");
+
+            if (!duplaCartaoAtivo) {
+                textoDuplaCartao = "Dupla titularidade no cartão.";
+                textarea.value += (textarea.value ? " " : "") + textoDuplaCartao;
+                duplaCartaoAtivo = true;
+            } else {
+                // Remove o texto se o botão for clicado novamente
+                textarea.value = textarea.value.replace(textoDuplaCartao, "").replace(/\s\s+/g, " ").trim();
+                duplaCartaoAtivo = false;
+                textoDuplaCartao = "";
+            }
+        });
+
+        let multiCartaoAtivo = false;
+        let textoMultiCartao = "";
+
+        document.getElementById("btnMultiCartao").addEventListener("click", function () {
+            const textarea = document.getElementById("textoUsuario");
+
+            if (!multiCartaoAtivo) {
+                textoMultiCartao = "Múltipla titularidade no cartão.";
+                textarea.value += (textarea.value ? " " : "") + textoMultiCartao;
+                multiCartaoAtivo = true;
+            } else {
+                // Remove o texto se o botão for clicado novamente
+                textarea.value = textarea.value.replace(textoMultiCartao, "").replace(/\s\s+/g, " ").trim();
+                multiCartaoAtivo = false;
+                textoMultiCartao = "";
+            }
+        });
+
+        let triplaCartaoAtivo = false;
+        let textoTriplaCartao = "";
+
+        document.getElementById("btnTriplaCartao").addEventListener("click", function () {
+            const textarea = document.getElementById("textoUsuario");
+
+            if (!triplaCartaoAtivo) {
+                textoTriplaCartao = "Tripla titularidade no cartão.";
+                textarea.value += (textarea.value ? " " : "") + textoTriplaCartao;
+                triplaCartaoAtivo = true;
+            } else {
+                // Remove o texto se o botão for clicado novamente
+                textarea.value = textarea.value.replace(textoTriplaCartao, "").replace(/\s\s+/g, " ").trim();
+                triplaCartaoAtivo = false;
+                textoTriplaCartao = "";
+            }
+        });
+
+        let velocityAtivo = false;
+        let textoVelocity = "";
+
+        document.getElementById("btnVelocity").addEventListener("click", function () {
+            const textarea = document.getElementById("textoUsuario");
+
+            if (!velocityAtivo) {
+                textoVelocity = "Velocidade de compra em um curto intervalo de tempo.";
+                textarea.value += (textarea.value ? " " : "") + textoVelocity;
+                velocityAtivo = true;
+            } else {
+                // Remove o texto se o botão for clicado novamente
+                textarea.value = textarea.value.replace(textoVelocity, "").replace(/\s\s+/g, " ").trim();
+                velocityAtivo = false;
+                textoVelocity = "";
+            }
+        });
+
+        let ipDivergeAtivo = false;
+        let textoIPDiverge = "";
+
+        document.getElementById("btnIPDiverge").addEventListener("click", function () {
+            const textarea = document.getElementById("textoUsuario");
+
+            if (!ipDivergeAtivo) {
+                textoIPDiverge = "IP diverge com a região da compra.";
+                textarea.value += (textarea.value ? " " : "") + textoIPDiverge;
+                ipDivergeAtivo = true;
+            } else {
+                // Remove o texto se o botão for clicado novamente
+                textarea.value = textarea.value.replace(textoIPDiverge, "").replace(/\s\s+/g, " ").trim();
+                ipDivergeAtivo = false;
+                textoIPDiverge = "";
+            }
+        });
+
+        let ligacaoAtivo = false;
+        let textoLigacao = "";
+
+        document.getElementById("btnLigacao").addEventListener("click", function () {
+            const textarea = document.getElementById("textoUsuario");
+
+            if (!ligacaoAtivo) {
+                let numero = prompt("Digite qual número o usuário ligou:");
+                if (numero === null || numero.trim() === "") return; // Cancelou ou vazio
+                textoLigacao = `Ligação sem sucesso para ${numero.trim()}.`;
+                textarea.value += (textarea.value ? " " : "") + textoLigacao;
+                ligacaoAtivo = true;
+            } else {
+                // Remove o texto se o botão for clicado novamente
+                textarea.value = textarea.value.replace(textoLigacao, "").replace(/\s\s+/g, " ").trim();
+                ligacaoAtivo = false;
+                textoLigacao = "";
+            }
+        });
+
+        let checkTudoAtivo = false;
+        let textoCheckTudo = "CheckTudo não vincula com o anúncio do cliente.";
+
+        document.getElementById("btnCheckTudo").addEventListener("click", function () {
+            const textarea = document.getElementById("textoUsuario");
+
+            if (!checkTudoAtivo) {
+                // Adiciona o texto sem sobrescrever
+                textarea.value += (textarea.value ? " " : "") + textoCheckTudo;
+                checkTudoAtivo = true;
+            } else {
+                // Remove o texto
+                textarea.value = textarea.value.replace(textoCheckTudo, "").replace(/\s\s+/g, " ").trim();
+                checkTudoAtivo = false;
+            }
+        });
+
+        let qtdDiasAtivo = false;
+        let textoQtdDias = "";
+
+        document.getElementById("btnQtdDias").addEventListener("click", function () {
+            const textarea = document.getElementById("textoUsuario");
+
+            if (!qtdDiasAtivo) {
+                let dias = prompt("Quantos dias o cliente tem na plataforma?");
+                if (dias === null || dias.trim() === "") return; // Cancelou ou vazio
+                dias = parseInt(dias, 10);
+
+                if (!isNaN(dias) && dias < 90) {
+                    textoQtdDias = `Cliente a ${dias} dias dentro da plataforma.`;
+                    textarea.value += (textarea.value ? " " : "") + textoQtdDias;
+                    qtdDiasAtivo = true;
+                } else {
+                    alert("O cliente está há 90 dias ou mais, texto não será adicionado.");
+                }
+            } else {
+                // Remove o texto
+                textarea.value = textarea.value.replace(textoQtdDias, "").replace(/\s\s+/g, " ").trim();
+                qtdDiasAtivo = false;
+                textoQtdDias = "";
+            }
+        });
+
+        let dfpAtivo = false;
+        let textoDFP = "";
+
+        document.getElementById("btnDFP").addEventListener("click", function () {
+            const textarea = document.getElementById("textoUsuario");
+
+            if (!dfpAtivo) {
+                textoDFP = "Terceiros usando DFP, sendo risco essa transação.";
+                textarea.value += (textarea.value ? " " : "") + textoDFP;
+                dfpAtivo = true;
+            } else {
+                // Remove o texto
+                textarea.value = textarea.value.replace(textoDFP, "").replace(/\s\s+/g, " ").trim();
+                dfpAtivo = false;
+                textoDFP = "";
+            }
+        });
+
+        let pixAtivo = false;
+        let textoPix = "";
+
+        document.getElementById("btnPix").addEventListener("click", function () {
+            const textarea = document.getElementById("textoUsuario");
+
+            if (!pixAtivo) {
+                textoPix = "O Pix não é nominal ao cliente.";
+                textarea.value += (textarea.value ? " " : "") + textoPix;
+                pixAtivo = true;
+            } else {
+                // Remove o texto
+                textarea.value = textarea.value.replace(textoPix, "").replace(/\s\s+/g, " ").trim();
+                pixAtivo = false;
+                textoPix = "";
+            }
+        });
+
+        let velocidadePixAtivo = false;
+let textoVelocidadePix = "";
+
+document.getElementById("btnVelocidadePix").addEventListener("click", function () {
+    const textarea = document.getElementById("textoUsuario");
+
+    if (!velocidadePixAtivo) {
+        textoVelocidadePix = "Velocidade pagador Pix, risco de fraude.";
+        textarea.value += (textarea.value ? " " : "") + textoVelocidadePix;
+        velocidadePixAtivo = true;
+    } else {
+        // Remove o texto
+        textarea.value = textarea.value.replace(textoVelocidadePix, "").replace(/\s\s+/g, " ").trim();
+        velocidadePixAtivo = false;
+        textoVelocidadePix = "";
+    }
+});
+
+    </script>
+
+
+</body>
+
+</html>
